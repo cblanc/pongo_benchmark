@@ -45,4 +45,8 @@ The following steps have been taken to reduce (as much as possbile) the confound
 
 - Database instructions are buffered as much as possible prior to benchmarking
 - Database instructions are sent in series
-- Custom connection pooling [todo]
+- Custom connection pooling (single client is instantiated and used in series)
+
+## Notes Absurdities of Intra-DB tests
+
+- Tests are highly subject to DB drivers and libraries built on top. E.g. When implementing MongoDB tests, time for insert was halved by reusing the same client repeatedly.
