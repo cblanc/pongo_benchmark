@@ -22,6 +22,7 @@ $ pongo -t insert -s mongodb
 
 - Postgresql
 - MongoDB
+- Redis
 
 Setting the flag:
 
