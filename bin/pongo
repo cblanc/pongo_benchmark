@@ -1,0 +1,49 @@
+#!/usr/bin/env node
+
+"use strict"
+
+var path = require("path");
+var argv = require('minimist')(process.argv.slice(2));
+var pongo = require(path.join(__dirname, "../index.js"));
+var datastores = pongo.datastores;
+var tests = pongo.tests;
+
+function exit(error) {
+	if (error) {
+		console.log("Exiting program due to error:", error);
+	} else {
+		console.log("Exiting program now");
+	}
+	process.exit(0);
+}
+
+function getDatastore () {
+	var datastore = pongo.datastores[argv["store"]] || pongo.datastores[argv["s"]];
+	if (datastore === undefined) {
+		console.log("Please provide a datastore you wish to test using the store flag (-s)");
+		console.log("Current stores available:");
+		for (var storeName in pongo.datastores) {
+			console.log(storeName);
+		}
+		exit();
+	}
+	return datastore;
+}
+
+function getTest () {
+	var test = tests[argv["test"]] || tests[argv["t"]];
+	if (test === undefined) {
+		console.log("Please provide a test you wish to carry out using the test flag (-t)");
+		console.log("Current tests available:");
+		for (var method in tests) {
+			console.log(method, " : ", tests[method].description);
+		}
+		exit();
+	}
+	return test;
+}
+
+var test = getTest()
+var datastore = getDatastore();
+
+test.run(datastore, argv, exit);
