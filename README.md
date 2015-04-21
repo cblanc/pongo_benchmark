@@ -44,10 +44,11 @@ Setting the flag:
 
 The following steps have been taken to reduce (as much as possbile) the confounding effects of javascript runtime (like JSON parsing/stringifying) or quirks of the database driver
 
-- Database instructions are buffered as much as possible prior to benchmarking
+- Database instructions are buffered in memory as much as possible prior to benchmarking
 - Database instructions are sent in series
-- Custom connection pooling (single client is instantiated and used in series)
+- Custom connection pooling (only single client is instantiated and used in series)
+- No ORMS, just a single client instance communicating with the database
 
-## Notes Absurdities of Intra-DB tests
+## Why intra-DB tests are silly
 
-- Tests are highly subject to DB drivers and libraries built on top. E.g. When implementing MongoDB tests, time for insert was halved by reusing the same client repeatedly.
+- Tests are highly subject to DB drivers and libraries built on top. E.g. When implementing MongoDB tests, time for insert was halved by reusing the same client repeatedly
